@@ -40,6 +40,10 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if (wnd.mouse.LeftIsPressed())
+	{
+		meme.OnClickReveal(wnd.mouse.GetPos());
+	}
 }
 
 void Game::ComposeFrame()
