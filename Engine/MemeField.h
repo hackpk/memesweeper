@@ -21,6 +21,8 @@ public:
 		void Draw(const Vei2& screenPos, Graphics& gfx) const;
 		void Reveal();
 		bool IsRevealed() const;
+		void Flagged();
+		bool IsFlagged() const;
 
 	private:
 		State state = { State::Hidden };
@@ -31,6 +33,7 @@ public:
 	void Draw(Graphics& gfx) const;
 	RectI GetRect()const;
 	void OnClickReveal(const Vei2& screenPos);
+	void OnClickFlagged(const Vei2& screenPos);
 private:
 	Tile& TileAt(const Vei2& gridPos);
 	const Tile& TileAt(const Vei2& gridPos) const;

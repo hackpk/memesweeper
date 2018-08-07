@@ -40,9 +40,17 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if (wnd.mouse.LeftIsPressed())
+	while (!wnd.mouse.IsEmpty())
 	{
-		meme.OnClickReveal(wnd.mouse.GetPos());
+		const Mouse::Event e = wnd.mouse.Read();
+		if (e.GetType() == Mouse::Event::Type::LPress)
+		{
+			meme.OnClickReveal(e.GetPos());
+		}
+		else if(e.GetType() == Mouse::Event::Type::RPress)
+		{
+			meme.OnClickFlagged(e.GetPos());
+		}
 	}
 }
 

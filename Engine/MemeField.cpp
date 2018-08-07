@@ -53,6 +53,17 @@ void MemeField::OnClickReveal(const Vei2 & screenPos)
 	}
 }
 
+void MemeField::OnClickFlagged(const Vei2 & screenPos)
+{
+	const Vei2 gridPos = ScreenToGrid(screenPos);
+	assert(gridPos.x >= 0 && gridPos.x <= width && gridPos.y >= 0 && gridPos.y <= height);
+	Tile& tile = TileAt(gridPos);
+	if (!tile.IsRevealed() && !tile.IsFlagged())
+	{
+		tile.Flagged();
+	}
+}
+
 Vei2 MemeField::ScreenToGrid(const Vei2 & screenPos) const
 {
 	return screenPos / SpriteCodex::tileSize;;
@@ -113,5 +124,23 @@ bool MemeField::Tile::IsRevealed() const
 {
 	
 	return state == State::Revealed;
+}
+
+void MemeField::Tile::Flagged()
+{
+	assert(!IsRevealed());
+	if (state == State::Hidden)
+	{
+		state = State::Flag;
+	}
+	else
+	{
+		state = State::Hidden;
+	}
+}
+
+bool MemeField::Tile::IsFlagged() const
+{
+	return state == State::Flag;
 }
 
