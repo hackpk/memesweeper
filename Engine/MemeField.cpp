@@ -47,7 +47,7 @@ void MemeField::OnClickReveal(const Vei2 & screenPos)
 	const Vei2 gridPos = ScreenToGrid(screenPos);
 	assert(gridPos.x >= 0 && gridPos.x <= width && gridPos.y >= 0 && gridPos.y <= height);
 	Tile& tile = TileAt(gridPos);
-	if (!tile.IsRevealed())
+	if (!tile.IsRevealed() && !tile.IsFlagged())
 	{
 		tile.Reveal();
 	}
@@ -58,7 +58,7 @@ void MemeField::OnClickFlagged(const Vei2 & screenPos)
 	const Vei2 gridPos = ScreenToGrid(screenPos);
 	assert(gridPos.x >= 0 && gridPos.x <= width && gridPos.y >= 0 && gridPos.y <= height);
 	Tile& tile = TileAt(gridPos);
-	if (!tile.IsRevealed() && !tile.IsFlagged())
+	if (!tile.IsRevealed())
 	{
 		tile.Flagged();
 	}

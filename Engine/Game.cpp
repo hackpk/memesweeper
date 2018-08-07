@@ -45,11 +45,19 @@ void Game::UpdateModel()
 		const Mouse::Event e = wnd.mouse.Read();
 		if (e.GetType() == Mouse::Event::Type::LPress)
 		{
-			meme.OnClickReveal(e.GetPos());
+			const Vei2 mousePos = e.GetPos();
+			if (meme.GetRect().Contains(mousePos))
+			{
+				meme.OnClickReveal(mousePos);
+			}
 		}
 		else if(e.GetType() == Mouse::Event::Type::RPress)
 		{
-			meme.OnClickFlagged(e.GetPos());
+			const Vei2 mousePos = e.GetPos();
+			if (meme.GetRect().Contains(mousePos))
+			{
+				meme.OnClickFlagged(mousePos);
+			}
 		}
 	}
 }
