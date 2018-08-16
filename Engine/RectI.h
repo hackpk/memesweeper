@@ -10,6 +10,7 @@ public:
 	RectI( const Vei2& topLeft,const Vei2& bottomRight );
 	RectI( const Vei2& topLeft,int width,int height );
 	bool IsOverlappingWith( const RectI& other ) const;
+	bool Contains(const Vei2& point)const;
 	bool IsContainedBy( const RectI& other ) const;
 	bool Contains( const Vei2& point ) const;
 	static RectI FromCenter( const Vei2& center,int halfWidth,int halfHeight );

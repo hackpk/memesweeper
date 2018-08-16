@@ -22,6 +22,7 @@
 #include <queue>
 #include "Vei2.h"
 
+
 class Mouse
 {
 	friend class MainWindow;

@@ -1,64 +1,49 @@
 #pragma once
-
+#include "Vei2.h"
 #include "Graphics.h"
-#include "Sound.h"
+#include "RectI.h"
 
 class MemeField
 {
 public:
-	enum class State
-	{
-		Fucked,
-		Winrar,
-		Memeing
-	};
-private:
 	class Tile
 	{
 	public:
 		enum class State
 		{
 			Hidden,
-			Flagged,
+			Flag,
 			Revealed
 		};
 	public:
 		void SpawnMeme();
-		bool HasMeme() const;
-		void Draw( const Vei2& screenPos,MemeField::State fucked,Graphics& gfx ) const;
+		bool HasMeme()const;
+		void Draw(const Vei2& screenPos, bool memed,Graphics& gfx) const;
 		void Reveal();
 		bool IsRevealed() const;
-		void ToggleFlag();
+		void Flagged();
 		bool IsFlagged() const;
-		bool HasNoNeighborMemes() const;
-		void SetNeighborMemeCount( int memeCount );
+		void SetNeighbourMeme(int memeCount);
 	private:
-		State state = State::Hidden;
+		State state = { State::Hidden };
 		bool hasMeme = false;
-		int nNeighborMemes = -1;
+		int nNegihbourMeme = -1;
 	};
 public:
-	MemeField( const Vei2& center,int width,int height,int nMemes );
-	~MemeField();
-	void Draw( Graphics& gfx ) const;
-	RectI GetRect() const;
-	void OnRevealClick( const Vei2& screenPos );
-	void OnFlagClick( const Vei2& screenPos );
-	State GetState() const;
+	MemeField(int nMemes);
+	void Draw(Graphics& gfx) const;
+	RectI GetRect()const;
+	void OnClickReveal(const Vei2& screenPos);
+	void OnClickFlagged(const Vei2& screenPos);
 private:
-	void RevealTile( const Vei2& gridPos );
-	Tile& TileAt( const Vei2& gridPos );
-	const Tile& TileAt( const Vei2& gridPos ) const;
-	Vei2 ScreenToGrid( const Vei2& screenPos );
-	int CountNeighborMemes( const Vei2& gridPos );
-	bool GameIsWon() const;
+	Tile& TileAt(const Vei2& gridPos);
+	const Tile& TileAt(const Vei2& gridPos) const;
+	Vei2 ScreenToGrid(const Vei2& screenPos)const;
+	int nNeighbourMemeCount(const Vei2& gridPos)const;
 private:
-	int width;
-	int height;
-	static constexpr int borderThickness = 10;
-	static constexpr Color borderColor = Colors::Blue;
-	Sound sndLose = Sound( L"spayed.wav" );
-	Vei2 topLeft;
-	State state = State::Memeing;
-	Tile* field = nullptr;
+	static constexpr int width = 20;
+	static constexpr int height = 16;
+	bool isMemed = false;
+	Tile Field[width * height];
+	
 };
