@@ -56,15 +56,7 @@ void MemeField::OnClickReveal(const Vei2 & screenPos)
 	{
 		const Vei2 gridPos = ScreenToGrid(screenPos);
 		assert(gridPos.x >= 0 && gridPos.x <= width && gridPos.y >= 0 && gridPos.y <= height);
-		Tile& tile = TileAt(gridPos);
-		if (!tile.IsRevealed() && !tile.IsFlagged())
-		{
-			tile.Reveal();
-			if (tile.HasMeme())
-			{
-				isMemed = true;
-			}
-		}
+		NoNeighbour(gridPos);
 	}
 }
 
@@ -78,6 +70,35 @@ void MemeField::OnClickFlagged(const Vei2 & screenPos)
 		if (!tile.IsRevealed())
 		{
 			tile.Flagged();
+		}
+	}
+}
+
+void MemeField::NoNeighbour(const Vei2 & gridPos)
+{
+	Tile& tile = TileAt(gridPos);
+	if (!tile.IsRevealed() && !tile.IsFlagged())
+	{
+		tile.Reveal();
+		if (tile.HasMeme())
+		{
+			isMemed = true;
+		}
+		else if (tile.HasNoNeighbour())
+		{
+			const int XStart = std::max(0, gridPos.x - 1);
+			const int YStart = std::max(0, gridPos.y - 1);
+			const int XEnd = std::min(width - 1, gridPos.x + 1);
+			const int YEnd = std::min(height - 1, gridPos.y + 1);
+
+	
+			for (Vei2 gridPos = { XStart,YStart }; gridPos.y < YEnd; gridPos.y++)
+			{
+				for (gridPos.x = XStart; gridPos.x < XEnd; gridPos.x++)
+				{
+					NoNeighbour(gridPos);
+				}
+			}
 		}
 	}
 }
@@ -228,5 +249,10 @@ void MemeField::Tile::SetNeighbourMeme(int memeCount)
 {
 	assert(nNegihbourMeme == -1);
 	nNegihbourMeme = memeCount;
+}
+
+bool MemeField::Tile::HasNoNeighbour()
+{
+	return nNegihbourMeme == 0;
 }
 
